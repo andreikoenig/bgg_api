@@ -2,8 +2,7 @@ require "mechanize"
 require "pry"
 base_url = "http://www.boardgamegeek.com/xmlapi2/"
 
-bot = Mechanize.new
-response = bot.get base_url + "forum?id=10"
+response = Mechanize.new.get base_url + "forum?id=10"
 threads = response.xml.xpath("//threads").first.children.reject{|node| Nokogiri::XML::Text === node}
 
 #each thread has id, subject, author, postdate, lastpostdate.
