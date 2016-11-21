@@ -1,5 +1,6 @@
 require "mechanize"
 require "twilio-ruby"
+
 module HotDeals
 	module_function
 	def run
@@ -19,6 +20,11 @@ module HotDeals
 		ten_min_ago = Time.now.utc - 60*10
 
 		new_threads = []
+
+	# client.account.messages.create(
+	# 			:from => from,
+	# 			:to => my_number,
+	# 			:body => "searching hot deals forum")
 
 		threads.each do |thread|
 			threadtime = Time.parse(thread["postdate"]).utc
