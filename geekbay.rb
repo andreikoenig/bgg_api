@@ -1,6 +1,5 @@
 require "mechanize"
 require "twilio-ruby"
-require "pry"
 
 module GeekBay
   module_function

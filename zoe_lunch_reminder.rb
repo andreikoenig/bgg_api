@@ -10,6 +10,7 @@ module ZoeLunchReminder
 		from = ENV["TWILIO_NUMBER"]
 
 		marina_number = ENV["MARINA_NUMBER"]
+
     client.account.messages.create(
 			:from => from,
 			:to => marina_number,

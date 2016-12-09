@@ -4,6 +4,7 @@ require "twilio-ruby"
 module HotDeals
 	module_function
 	def run
+		puts " ~~~~~~ #{Time.now.utc} ~~~~~~ Checking Hot Deals"
 		base_url = "http://www.boardgamegeek.com/xmlapi2/"
 		account_sid = ENV["ACCOUNT_SID"]
 		auth_token = ENV["AUTH_TOKEN"]
@@ -21,11 +22,6 @@ module HotDeals
 
 		new_threads = []
 
-	# client.account.messages.create(
-	# 			:from => from,
-	# 			:to => my_number,
-	# 			:body => "searching hot deals forum")
-
 		threads.each do |thread|
 			threadtime = Time.parse(thread["postdate"]).utc
 			if threadtime >  ten_min_ago
@@ -34,7 +30,9 @@ module HotDeals
 			end
 		end
 
-		unless new_threads.empty?
+		if new_threads.empty?
+			puts " ~~~~~~ INFO: No new Threads in the last 10 min"
+		else		
 			client.account.messages.create(
 				:from => from,
 				:to => my_number,
