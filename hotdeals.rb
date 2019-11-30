@@ -33,6 +33,7 @@ module HotDeals
 		if new_threads.empty?
 			puts " ~~~~~~ INFO: No new Threads in the last 5 min"
 		else		
+                        # send sms
 			client.account.messages.create(
 				:from => from,
 				:to => my_number,
