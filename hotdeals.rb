@@ -17,14 +17,24 @@ module HotDeals
 		response = Mechanize.new.get base_url + "forum?id=10"
 		threads = response.xml.xpath("//threads").first.children.reject{|node| Nokogiri::XML::Text === node}
 
+		hotdeals_file_path = './hotdeal_ids.txt'
+
+		hotdeal_ids = File.open(hotdeals_file_path, 'w')
+		puts hotdeal_ids
+
+		hotdeal_ids_array = hotdeal_ids.split(",")
+		puts hotdeal_ids_array
+
 		#each thread has id, subject, author, postdate, lastpostdate.
-		five_min_ago = Time.now.utc - 60*5
+		three_min_ago = Time.now.utc - 60*3
 
 		new_threads = []
 
 		threads.each do |thread|
-			threadtime = Time.parse(thread["postdate"]).utc
-			if threadtime > five_min_ago
+			puts thread
+	    threadtime = Time.parse(thread["postdate"]).utc
+	    thread_id = thread["id"]
+			if (threadtime > three_min_ago) && (hotdeal_ids_array.include?(thread_id))
 				link = "https://boardgamegeek.com/thread/#{thread["id"]}"
 				new_threads << [thread["subject"], link]
 			end
