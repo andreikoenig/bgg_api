@@ -18,20 +18,20 @@ module HotDeals
 		threads = response.xml.xpath("//threads").first.children.reject{|node| Nokogiri::XML::Text === node}
 
 		#each thread has id, subject, author, postdate, lastpostdate.
-		ten_min_ago = Time.now.utc - 60*10
+		five_min_ago = Time.now.utc - 60*5
 
 		new_threads = []
 
 		threads.each do |thread|
 			threadtime = Time.parse(thread["postdate"]).utc
-			if threadtime >  ten_min_ago
+			if threadtime > five_min_ago
 				link = "https://boardgamegeek.com/thread/#{thread["id"]}"
 				new_threads << [thread["subject"], link]
 			end
 		end
 
 		if new_threads.empty?
-			puts " ~~~~~~ INFO: No new Threads in the last 10 min"
+			puts " ~~~~~~ INFO: No new Threads in the last 5 min"
 		else		
 			client.account.messages.create(
 				:from => from,
